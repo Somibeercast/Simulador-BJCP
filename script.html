@@ -1,0 +1,90 @@
+const questions = [
+    {
+        question: "¿Cuál es la principal diferencia entre una American Pale Ale (APA) y una American IPA?",
+        options: [
+            "El nivel de malta",
+            "El contenido de alcohol y amargor",
+            "El perfil de la levadura",
+            "La cantidad de trigo en la receta"
+        ],
+        answer: "El contenido de alcohol y amargor"
+    },
+    {
+        question: "¿Qué diferencia notable existe entre una Hefeweizen y una Witbier?",
+        options: [
+            "La Hefeweizen tiene un mayor nivel de amargor",
+            "La Witbier se elabora con trigo no malteado y cáscara de naranja",
+            "La Hefeweizen tiene una mayor cantidad de aromas a especias debido a la levadura",
+            "La Witbier tiene un sabor más dulce debido al uso de miel"
+        ],
+        answer: "La Witbier se elabora con trigo no malteado y cáscara de naranja"
+    },
+    {
+        question: "¿Qué diferencia notable existe entre una Eisbock y una Doppelbock?",
+        options: [
+            "La Eisbock es más ligera en cuerpo y menos alcohólica",
+            "La Eisbock es una versión congelada y más fuerte de la Doppelbock",
+            "La Doppelbock tiene mayor amargor",
+            "La Eisbock es más dulce"
+        ],
+        answer: "La Eisbock es una versión congelada y más fuerte de la Doppelbock"
+    },
+    {
+        question: "¿Cuál es la principal característica de la Gose?",
+        options: [
+            "Es una cerveza con un sabor dulce",
+            "Tiene un sabor amargo fuerte",
+            "Es una cerveza salada con notas de cilantro",
+            "Es más alcohólica que la Berliner Weisse"
+        ],
+        answer: "Es una cerveza salada con notas de cilantro"
+    }
+    // Aquí puedes seguir agregando más preguntas hasta llegar a 300
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const questionElement = document.getElementById("quiz-container");
+    const questionData = questions[currentQuestionIndex];
+
+    const questionHTML = `
+        <div class="question">
+            <p><strong>${questionData.question}</strong></p>
+            ${questionData.options.map((option, index) => `
+                <label>
+                    <input type="radio" name="question${currentQuestionIndex}" value="${option}">
+                    ${option}
+                </label>
+                <br>
+            `).join('')}
+        </div>
+    `;
+
+    questionElement.innerHTML = questionHTML;
+}
+
+document.getElementById("submit").addEventListener("click", () => {
+    const selectedOption = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
+    if (selectedOption) {
+        const answer = selectedOption.value;
+        if (answer === questions[currentQuestionIndex].answer) {
+            score++;
+        }
+    }
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        document.getElementById("score").innerHTML = `Puntaje final: ${score} de ${questions.length}`;
+        document.getElementById("submit").disabled = true;
+    }
+});
+
+// Cargar la primera pregunta
+loadQuestion();
+
+    
